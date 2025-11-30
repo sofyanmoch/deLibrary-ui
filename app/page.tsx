@@ -753,7 +753,7 @@ export default function DeLibrary() {
               © 2024 deLibrary. Powered by Blockchain Technology.
             </p>
             <div className="flex items-center space-x-4 text-sm text-gray-600">
-              <span>Polygon Mumbai Testnet</span>
+              <span>Sepolia Testnet</span>
               <span>•</span>
               <span>Smart Contracts Verified</span>
             </div>

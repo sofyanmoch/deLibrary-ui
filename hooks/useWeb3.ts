@@ -41,7 +41,7 @@ export function useWeb3() {
     setTokenBalance('0');
   }, []);
 
-  const switchNetwork = useCallback(async (network: 'mumbai' | 'localhost') => {
+  const switchNetwork = useCallback(async (network: 'sepolia' | 'localhost') => {
     setIsLoading(true);
     setError(null);
     

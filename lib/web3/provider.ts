@@ -9,6 +9,9 @@ declare global {
   }
 }
 
+// Sepolia Chain ID
+const SEPOLIA_CHAIN_ID = '0xaa36a7'; // 11155111 in decimal
+
 export class Web3Provider {
   private provider: ethers.BrowserProvider | null = null;
   private signer: ethers.Signer | null = null;
@@ -29,7 +32,16 @@ export class Web3Provider {
       
       // Check network
       const network = await this.provider.getNetwork();
-      console.log('Connected to network:', network.name, network.chainId);
+      console.log('Connected to network:', network.name, 'Chain ID:', network.chainId);
+      
+      // ⚠️ IMPORTANT: Check if connected to Sepolia
+      if (network.chainId !== 11155111n) { // Note: BigInt comparison
+        console.warn('⚠️ Not connected to Sepolia! Switching...');
+        await this.switchNetwork('sepolia');
+        // Reconnect after switching
+        this.provider = new ethers.BrowserProvider(window.ethereum);
+        this.signer = await this.provider.getSigner();
+      }
       
       return address;
     } catch (error) {
@@ -38,7 +50,7 @@ export class Web3Provider {
     }
   }
 
-  async switchNetwork(networkKey: 'mumbai' | 'localhost'): Promise<void> {
+  async switchNetwork(networkKey: 'sepolia' | 'localhost'): Promise<void> {
     if (!window.ethereum) {
       throw new Error('MetaMask is not installed!');
     }
@@ -50,6 +62,9 @@ export class Web3Provider {
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: network.chainId }],
       });
+      
+      // Wait a bit for network switch to complete
+      await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (switchError: any) {
       // This error code indicates that the chain has not been added to MetaMask
       if (switchError.code === 4902) {
@@ -58,6 +73,7 @@ export class Web3Provider {
             method: 'wallet_addEthereumChain',
             params: [network],
           });
+          await new Promise(resolve => setTimeout(resolve, 1000));
         } catch (addError) {
           throw addError;
         }
@@ -67,8 +83,29 @@ export class Web3Provider {
     }
   }
 
+  async getCurrentChainId(): Promise<bigint> {
+    if (!this.provider) throw new Error('Provider not initialized');
+    const network = await this.provider.getNetwork();
+    return network.chainId;
+  }
+
+  async isCorrectNetwork(): Promise<boolean> {
+    try {
+      const chainId = await this.getCurrentChainId();
+      return chainId === 11155111n; // Sepolia
+    } catch {
+      return false;
+    }
+  }
+
   getBookTokenContract() {
     if (!this.signer) throw new Error('Wallet not connected');
+    
+    // Add address validation
+    if (!ethers.isAddress(CONTRACTS.BookToken.address)) {
+      throw new Error('Invalid BookToken contract address');
+    }
+    
     return new ethers.Contract(
       CONTRACTS.BookToken.address,
       BookTokenABI,
@@ -78,6 +115,12 @@ export class Web3Provider {
 
   getBookLendingContract() {
     if (!this.signer) throw new Error('Wallet not connected');
+    
+    // Add address validation
+    if (!ethers.isAddress(CONTRACTS.BookLending.address)) {
+      throw new Error('Invalid BookLending contract address');
+    }
+    
     return new ethers.Contract(
       CONTRACTS.BookLending.address,
       BookLendingABI,
@@ -95,6 +138,17 @@ export class Web3Provider {
     const tokenContract = this.getBookTokenContract();
     const balance = await tokenContract.balanceOf(address);
     return ethers.formatEther(balance);
+  }
+
+  // Add method to check if contract exists
+  async isContractDeployed(address: string): Promise<boolean> {
+    if (!this.provider) throw new Error('Provider not initialized');
+    try {
+      const code = await this.provider.getCode(address);
+      return code !== '0x'; // If code is not empty, contract exists
+    } catch {
+      return false;
+    }
   }
 }
 
