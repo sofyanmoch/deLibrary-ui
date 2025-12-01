@@ -230,26 +230,26 @@ export default function DeLibrary() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
       <header className="bg-white border-b shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center space-x-3">
               <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-2 rounded-lg">
-                <BookOpen className="w-6 h-6 text-white" />
+                <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                   deLibrary
                 </h1>
-                <p className="text-xs text-gray-500">Decentralized Book Lending</p>
+                <p className="text-xs text-gray-500 hidden sm:block">Decentralized Book Lending</p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
               {isConnected && (
-                <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-100 to-blue-100 px-4 py-2 rounded-lg">
-                  <Coins className="w-5 h-5 text-purple-600" />
+                <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-100 to-blue-100 px-3 sm:px-4 py-2 rounded-lg w-full sm:w-auto">
+                  <Coins className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
                   <div className="text-sm">
                     <div className="font-bold text-purple-900">{parseFloat(tokenBalance).toFixed(2)} BOOK</div>
-                    <div className="text-xs text-gray-600">Token Balance</div>
+                    <div className="text-xs text-gray-600 hidden sm:block">Token Balance</div>
                   </div>
                 </div>
               )}
@@ -258,22 +258,24 @@ export default function DeLibrary() {
                 <Button 
                   onClick={handleConnectWallet} 
                   disabled={isLoading}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 w-full sm:w-auto"
                 >
                   {isLoading ? (
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   ) : (
                     <Wallet className="w-4 h-4 mr-2" />
                   )}
-                  Connect Wallet
+                  <span className="hidden sm:inline">Connect Wallet</span>
+                  <span className="sm:hidden">Connect</span>
                 </Button>
               ) : (
-                <div className="flex items-center space-x-2">
-                  <div className="bg-gray-100 px-4 py-2 rounded-lg">
-                    <p className="text-sm font-mono text-gray-700">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</p>
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <div className="bg-gray-100 px-3 sm:px-4 py-2 rounded-lg flex-1 sm:flex-none">
+                    <p className="text-xs sm:text-sm font-mono text-gray-700">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</p>
                   </div>
                   <Button variant="outline" size="sm" onClick={handleDisconnectWallet}>
-                    Disconnect
+                    <span className="hidden sm:inline">Disconnect</span>
+                    <span className="sm:hidden">×</span>
                   </Button>
                 </div>
               )}
@@ -328,7 +330,7 @@ export default function DeLibrary() {
               <TabsList className="bg-white">
                 <TabsTrigger value="browse">
                   <BookOpen className="w-4 h-4 mr-2" />
-                  Browse Books
+                  Browse
                 </TabsTrigger>
                 <TabsTrigger value="mybooks">
                   <BookMarked className="w-4 h-4 mr-2" />
@@ -336,15 +338,15 @@ export default function DeLibrary() {
                 </TabsTrigger>
                 <TabsTrigger value="myloans">
                   <Clock className="w-4 h-4 mr-2" />
-                  My Loans
+                  Loans
                 </TabsTrigger>
               </TabsList>
 
               <Dialog open={isListDialogOpen} onOpenChange={setIsListDialogOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
-                    <PlusCircle className="w-4 h-4 mr-2" />
-                    List New Book
+                    <PlusCircle className="w-4 h-4" />
+                    Add Book
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -746,20 +748,85 @@ export default function DeLibrary() {
         </DialogContent>
       </Dialog>
 
-      <footer className="bg-white border-t mt-12">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-600">
-              © 2024 deLibrary. Powered by Blockchain Technology.
-            </p>
-            <div className="flex items-center space-x-4 text-sm text-gray-600">
-              <span>Sepolia Testnet</span>
-              <span>•</span>
-              <span>Smart Contracts Verified</span>
+<footer className="bg-white border-t border-gray-200 shadow-sm mt-12">
+  <div className="container mx-auto px-4 py-8 sm:py-12">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      {/* Brand Section */}
+      <div className="space-y-4">
+        <div className="flex items-center space-x-3">
+          <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 rounded-lg shadow-md">
+            <BookOpen className="w-5 h-5 text-white" />
+          </div>
+          <h3 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">deLibrary</h3>
+        </div>
+        <p className="text-gray-600 text-sm">
+          Decentralized book lending platform powered by blockchain technology. Share knowledge, earn rewards.
+        </p>
+        <div className="flex items-center space-x-2 bg-green-50 px-3 py-1.5 rounded-full w-fit border border-green-200">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <span className="text-green-700 text-xs font-medium">Live on Sepolia Testnet</span>
+        </div>
+      </div>
+
+      {/* Quick Links */}
+      <div className="space-y-4">
+        <h4 className="text-gray-900 font-semibold text-sm uppercase tracking-wider">Platform</h4>
+        <div className="space-y-2">
+          <div className="text-gray-600 text-sm hover:text-purple-600 transition-colors cursor-pointer flex items-center group">
+            <span className="w-1.5 h-1.5 bg-purple-400 rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+            Browse Books
+          </div>
+          <div className="text-gray-600 text-sm hover:text-purple-600 transition-colors cursor-pointer flex items-center group">
+            <span className="w-1.5 h-1.5 bg-purple-400 rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+            List Your Books
+          </div>
+          <div className="text-gray-600 text-sm hover:text-purple-600 transition-colors cursor-pointer flex items-center group">
+            <span className="w-1.5 h-1.5 bg-purple-400 rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+            Earn BOOK Tokens
+          </div>
+          <div className="text-gray-600 text-sm hover:text-purple-600 transition-colors cursor-pointer flex items-center group">
+            <span className="w-1.5 h-1.5 bg-purple-400 rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+            How It Works
+          </div>
+        </div>
+      </div>
+
+      {/* Community & Stats */}
+      <div className="space-y-4">
+        <h4 className="text-gray-900 font-semibold text-sm uppercase tracking-wider">Community</h4>
+        <div className="space-y-3">
+          <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-3 border border-purple-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-600 text-xs font-medium">Total Books</span>
+              <span className="text-purple-600 font-bold text-lg">100+</span>
+            </div>
+          </div>
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg p-3 border border-blue-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-600 text-xs font-medium">Active Loans</span>
+              <span className="text-blue-600 font-bold text-lg">10+</span>
             </div>
           </div>
         </div>
-      </footer>
+      </div>
+    </div>
+
+    {/* Bottom Bar */}
+    <div className="border-t border-gray-200 pt-6">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p className="text-gray-500 text-xs sm:text-sm text-center sm:text-left">
+          © 2025 deLibrary. Built with <span className="text-red-500">❤️</span> on the blockchain.
+        </p>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 bg-gradient-to-r from-green-50 to-emerald-50 px-3 py-1.5 rounded-full border border-green-300 shadow-sm">
+            <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-green-700 text-xs font-medium">Smart Contracts Verified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
     </div>
   );
 }
