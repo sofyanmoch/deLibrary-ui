@@ -1,10 +1,10 @@
 export const CONTRACTS = {
   BookToken: {
-    address: '0x6594ae815458c9c52187314d1fe818a1ebb498b1',
+    address: '0x3D4fcaeABdb780A7b9cF3CfEfb1F1F7d7C3F4d2E',
     abi: [] // Will be imported
   },
   BookLending: {
-    address: '0x8cfb34c6685fbd1c7eed1751547936f5b70a04c4',
+    address: '0xb3f05be3199539e47ddd425abbb94e45d1a2dbe8',
     abi: [] // Will be imported
   }
 };
