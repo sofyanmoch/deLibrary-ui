@@ -219,6 +219,44 @@ export function useBookLending() {
     }
   }, [getBook]);
 
+  const setUsername = useCallback(async (username: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const contract = web3Provider.getBookLendingContract();
+
+      const tx = await contract.setUsername(username);
+      const receipt = await tx.wait();
+
+      return { success: true, txHash: receipt.hash };
+    } catch (err: any) {
+      console.error('Error setting username:', err);
+      setError(err.message);
+      return { success: false, error: err.message };
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const getUserProfile = useCallback(async (userAddress: string) => {
+    try {
+      const contract = web3Provider.getBookLendingContract();
+      const profile = await contract.getUserProfile(userAddress);
+
+      return {
+        username: profile.username,
+        booksLent: Number(profile.booksLent),
+        booksBorrowed: Number(profile.booksBorrowed),
+        totalEarnings: profile.totalEarnings.toString(),
+        isRegistered: profile.isRegistered
+      };
+    } catch (err: any) {
+      console.error('Error getting user profile:', err);
+      return null;
+    }
+  }, []);
+
   return {
     isLoading,
     error,
@@ -228,6 +266,8 @@ export function useBookLending() {
     getBook,
     getAllBooks,
     getUserBooks,
-    getUserLoans
+    getUserLoans,
+    setUsername,
+    getUserProfile
   };
 }

@@ -33,11 +33,11 @@ export class Web3Provider {
       // Check network
       const network = await this.provider.getNetwork();
       console.log('Connected to network:', network.name, 'Chain ID:', network.chainId);
-      
-      // ⚠️ IMPORTANT: Check if connected to Sepolia
-      if (network.chainId !== 11155111n) { // Note: BigInt comparison
-        console.warn('⚠️ Not connected to Sepolia! Switching...');
-        await this.switchNetwork('sepolia');
+
+      // ⚠️ IMPORTANT: Check if connected to Arbitrum Sepolia
+      if (network.chainId !== 421614n) { // Note: BigInt comparison
+        console.warn('⚠️ Not connected to Arbitrum Sepolia! Switching...');
+        await this.switchNetwork('arbitrumSepolia');
         // Reconnect after switching
         this.provider = new ethers.BrowserProvider(window.ethereum);
         this.signer = await this.provider.getSigner();
@@ -50,7 +50,7 @@ export class Web3Provider {
     }
   }
 
-  async switchNetwork(networkKey: 'sepolia' | 'localhost'): Promise<void> {
+  async switchNetwork(networkKey: 'arbitrumSepolia' | 'sepolia' | 'localhost'): Promise<void> {
     if (!window.ethereum) {
       throw new Error('MetaMask is not installed!');
     }
@@ -92,7 +92,7 @@ export class Web3Provider {
   async isCorrectNetwork(): Promise<boolean> {
     try {
       const chainId = await this.getCurrentChainId();
-      return chainId === 11155111n; // Sepolia
+      return chainId === 421614n; // Arbitrum Sepolia
     } catch {
       return false;
     }

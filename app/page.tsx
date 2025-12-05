@@ -44,9 +44,13 @@ import {
   User,
   Coins,
   Loader2,
+  Trophy,
+  BarChart3,
 } from "lucide-react";
 import { useWeb3 } from "@/hooks/useWeb3";
 import { useBookLending, type Book } from "@/hooks/useBookLending";
+import { Leaderboard } from "@/components/Leaderboard";
+import { Statistics } from "@/components/Statistics";
 
 const PICKUP_POINT_1 = "Universitas Harkat Negeri (Kampus Pendidikan)";
 const PICKUP_POINT_2 = "Universitas Harkat Negeri (Kampus Mataram)";
@@ -88,6 +92,8 @@ export default function DeLibrary() {
     getAllBooks,
     getUserBooks,
     getUserLoans,
+    setUsername,
+    getUserProfile,
   } = useBookLending();
 
   const [books, setBooks] = useState<Book[]>([]);
@@ -431,6 +437,14 @@ export default function DeLibrary() {
                 <TabsTrigger value="myloans">
                   <Clock className="w-4 h-4 mr-2" />
                   Loans
+                </TabsTrigger>
+                <TabsTrigger value="leaderboard">
+                  <Trophy className="w-4 h-4 mr-2" />
+                  Leaderboard
+                </TabsTrigger>
+                <TabsTrigger value="statistics">
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  Statistics
                 </TabsTrigger>
               </TabsList>
 
@@ -912,6 +926,16 @@ export default function DeLibrary() {
                   ))}
                 </div>
               )}
+            </TabsContent>
+
+            {/* Leaderboard Tab */}
+            <TabsContent value="leaderboard" className="space-y-4">
+              <Leaderboard limit={10} autoRefresh={true} refreshInterval={30000} />
+            </TabsContent>
+
+            {/* Statistics Tab */}
+            <TabsContent value="statistics" className="space-y-4">
+              <Statistics autoRefresh={true} refreshInterval={30000} />
             </TabsContent>
           </Tabs>
         )}

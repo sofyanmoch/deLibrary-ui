@@ -1,15 +1,26 @@
 export const CONTRACTS = {
   BookToken: {
-    address: '0x3D4fcaeABdb780A7b9cF3CfEfb1F1F7d7C3F4d2E',
+    address: '0xb3F05BE3199539e47DDd425ABBB94E45d1A2dbe8', // Arbitrum Sepolia
     abi: [] // Will be imported
   },
   BookLending: {
-    address: '0xb3f05be3199539e47ddd425abbb94e45d1a2dbe8',
+    address: '0x53533CA4dfcCCAa0451b92EA6FFcA795680012F5', // Arbitrum Sepolia
     abi: [] // Will be imported
   }
 };
 
 export const NETWORKS = {
+  arbitrumSepolia: {
+    chainId: '0x66eee', // 421614 in hex
+    chainName: 'Arbitrum Sepolia',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18
+    },
+    rpcUrls: ['https://sepolia-rollup.arbitrum.io/rpc'],
+    blockExplorerUrls: ['https://sepolia.arbiscan.io/']
+  },
   sepolia: {
     chainId: '0xaa36a7', // 11155111 in hex
     chainName: 'Sepolia Testnet',
@@ -18,7 +29,7 @@ export const NETWORKS = {
       symbol: 'ETH',
       decimals: 18
     },
-    rpcUrls: ['https://sepolia.infura.io/v3/556a787db5724253b7117094d1ad79b9'], // Or use public RPC
+    rpcUrls: ['https://sepolia.infura.io/v3/556a787db5724253b7117094d1ad79b9'],
     blockExplorerUrls: ['https://sepolia.etherscan.io/']
   },
   localhost: {
