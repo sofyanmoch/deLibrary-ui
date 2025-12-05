@@ -1030,7 +1030,7 @@ export default function DeLibrary() {
               <div className="flex items-center space-x-2 bg-green-50 px-3 py-1.5 rounded-full w-fit border border-green-200">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                 <span className="text-green-700 text-xs font-medium">
-                  Live on Sepolia Testnet
+                  Live on Arbitrum
                 </span>
               </div>
             </div>
