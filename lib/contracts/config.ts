@@ -1,10 +1,10 @@
 export const CONTRACTS = {
   BookToken: {
-    address: '0xBC29d671FB60DeC163680cc3876914eBCfcDE3bD', // Arbitrum Sepolia
+    address: '0xFAEe134784cb181514B2B2fBbCd400B10C1c682F', // Arbitrum Sepolia
     abi: [] // Will be imported
   },
   BookLending: {
-    address: '0xe7fB403826ec808E7b0967a32058842864D34349', // Arbitrum Sepolia
+    address: '0x5995bF3f069F143f835438FCC74918143Fa10157', // Arbitrum Sepolia
     abi: [] // Will be imported
   }
 };
