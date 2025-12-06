@@ -436,7 +436,7 @@ export default function DeLibrary() {
                 </TabsTrigger>
                 <TabsTrigger value="myloans">
                   <Clock className="w-4 h-4 mr-2" />
-                  Loans
+                  My Loans
                 </TabsTrigger>
                 <TabsTrigger value="leaderboard">
                   <Trophy className="w-4 h-4 mr-2" />
